@@ -1,6 +1,5 @@
 from converter import Converter
 import argparse
-from pprint import pprint
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--input_currency", type=str, required=True, help="Currency code of input currency.")

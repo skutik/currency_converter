@@ -1,18 +1,16 @@
-from os import getenv
 import json
 from requests import get
-from random import choice
+import logging
 
 class Converter():
 
     SUPPORTED_CURRENCIES = {}
-    API_KEY = getenv("CONV_API_KEY")
 
     def __init__(self, input_currency, amount, output_currency):
         self._get_currencies_list()
         self.input_currency = input_currency.upper()
         self.amount = amount
-        self.output_currency = (output_currency.upper()) if output_currency else {choice(list(self.SUPPORTED_CURRENCIES)) for _ in range(5)}
+        # self.output_currency = output_currency.upper() if not output_currency
 
     def _get_currencies_list(self):
         response = get(f"https://free.currconv.com/api/v7/currencies?apiKey={self.API_KEY}")
