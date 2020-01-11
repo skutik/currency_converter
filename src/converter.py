@@ -58,7 +58,7 @@ class Converter:
         elif currency.upper() in supported_currencies:
             return [currency.upper()]
         else:
-            return None
+            return []
 
     def convert(self, pretiffy=False):
         if self.input_currency:

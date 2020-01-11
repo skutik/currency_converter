@@ -10,20 +10,20 @@ Supported currencies -
 Currency code (Currency symbol):
 """
 for key, value in supported_currencies.items():
-    desc += f"{key} ({value})"
+    desc += f"{key} ({value}), "
 
 # Top-level paraser
-parser = argparse.ArgumentParser(description=desc)
-subparsers = parser.add_subparsers(dest="action", help="sub-commands")
+parser = argparse.ArgumentParser(description=desc[:-2], prog="Currency converter")
+subparsers = parser.add_subparsers(dest="action", help="Action commands.")
 
 # Converter
-conv_paraser = subparsers.add_parser("conv", help="Converting currencies")
-conv_paraser.add_argument("--input_currency", type=str, required=True, help="Currency code of input currency.")
-conv_paraser.add_argument("--output_currency", type=str, required=False, help="Currency code of output currency. Not required. In case of None will be returned all available currencies.")
+conv_paraser = subparsers.add_parser("conv", help="Converting currencies.")
+conv_paraser.add_argument("--input_currency", type=str, required=True, help="Currency code/symbol of input currency.")
+conv_paraser.add_argument("--output_currency", type=str, required=False, help="Currency code/symbol to which will be amount converted to. Not required. In case of missing value will be returned all available currencies.")
 conv_paraser.add_argument("--amount", type=float, required=True, help="Amount to be converted.")
 
 # Storage update
-update_parser = subparsers.add_parser("update", help="Update currency rates.")
+update_parser = subparsers.add_parser("update", help="Update currency exchange rates.")
 
 args = parser.parse_args()
 
