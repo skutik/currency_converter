@@ -1,10 +1,6 @@
 # Currency converter
 
----
-
 ### Source and supported currencies
-
----
 
  - Currency rates are gather from via [RatesAPI](https://ratesapi.io/) providing current and historical exchange rates publiched by European Central Bank for free (exchange rates are updated once per day at 15:00 CET).
  - Application works only with currencies provided by European Central Bank. Supported currencies:
@@ -44,28 +40,33 @@ TRY|TRY
 USD|US$
 ZAR|R
 
-### CLI application
-
----
-#### Application positional arguments
-
----
-
-##### conv
- - convert specified amount to other currency/currencies
-- takes two required arguments (`input_currency`, `amount`) and one optional (`output_currency`)
+### Currency Converter
+- Convert specified amount to other currency/currencies
+- Takes two required arguments (`input_currency`, `amount`) and one optional (`output_currency`)
 - `input_currency` - can be defined by 3-letter currency code (non-case sensitive) or currency symbol (case sensitive). `input_currency` have to be **unique**, therefore symbol `$` can't be used because is shared between three different currencies (`AUD`, `CAD`, `MXN`)
 - `amount` - amount which will converted to other currency/currencies
 - `output_currency` - can be defined by 3-letter currency code (non-case sensitive) or currency symbol (case sensitive). In case of ommiting the atrribute will be returned all currencies.
-- action will print formatted JSON message or error message.
+- Action will print/return formatted JSON or error message.
 
-###### Example
+### Local Storage
+ - Storage constains JSON file with exchange rates for all supported currencies.
+ - Storage is updated by *update* command of in case of web application on strat-up.
 
-```shell script
+#### Example
+
+##### Currency converter
+
+- CLI
+```
 python cli_converter.py conv --input_currency CZK --amount 20
 ```
-
+- Web application (started with `python api_runner.py`)
 ```shell script
+GET http://localhost:5000/currency_converter?input_currency=CZK&amount=20.05
+```
+
+- output
+```
 {
     "input": {
         "amount": 20.0,
@@ -109,16 +110,17 @@ python cli_converter.py conv --input_currency CZK --amount 20
 }
 ```
 
-##### update
-- action performs update of local file with exchange rates
-- print message about success or failure
-
-###### Example
-
+##### Storage update
+- CLI
+```
+python cli_converter.py update
+```
+- Web application (started with `python api_runner.py`)
 ```shell script
-python cli_converter.py update 
+GET http://localhost:5000/update
 ```
 
-```shell script
+- output (for web application in JSON format)
+```
 Updated successfully
 ```
