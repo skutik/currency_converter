@@ -63,7 +63,7 @@ class Converter:
     def convert(self, pretiffy=False):
         if self.input_currency:
             if len(self.input_currency) > 1:
-                return ("Too many input currency options! Please insert currency code/symbol matching unique currency.")
+                return "Too many input currency options! Please insert a currency code/symbol matching the unique currency.", 400
             input_dict = {"amount": self.amount, "currency": self.input_currency[0]}
             storage = Storage("test_db")
             rates = storage.get_dict()
@@ -71,12 +71,12 @@ class Converter:
                 rates = rates["currencies"][self.input_currency[0]]["rates"]
                 logging.debug(rates)
             except KeyError:
-                return "Missing currency rates data. Please try to update storage."
+                return "Missing currency rates data. Please try to update storage.", 400
             if self.output_currency:
                 output_dict = {currency: round(rate * self.amount, 2) for currency, rate in rates.items() if currency in self.output_currency}
             else:
                 output_dict = {currency: round(rate * self.amount, 2) for currency, rate in rates.items()}
-            return json.dumps({"input": input_dict, "output": output_dict}, indent=4, sort_keys=True) if pretiffy else {"input": input_dict, "output": output_dict}
+            return json.dumps({"input": input_dict, "output": output_dict}, indent=4, sort_keys=True) if pretiffy else {"input": input_dict, "output": output_dict}, 200
         else:
-            return ("Unsupported input currency symbol/code! Please check input values or supported values help and try again!")
+            return "Unsupported input currency symbol/code! Please check input values or supported values help and try again!", 400
 

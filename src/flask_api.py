@@ -3,10 +3,11 @@ from src.converter import Converter, supported_currencies
 from src.downloader import CurrencyDowloader
 import logging
 
+logging.getLogger().setLevel(logging.INFO)
+
 app = Flask(__name__)
 downloader = CurrencyDowloader(supported_currencies)
 downloader.update()
-
 
 @app.route("/")
 def index():
@@ -16,13 +17,21 @@ def index():
 @app.route("/currency_converter", methods=["GET"])
 def currency_converter():
     if request.method == "GET":
-        if request.args.get("input_currency", type=str) and request.args.get("amount", type=float):
-            converter = Converter(input_currency=request.args.get("input_currency", type=str),
-                                  amount=request.args.get("amount", type=float),
-                                  output_currency=request.args.get("output_currency"))
-            return jsonify(converter.convert()), 200
+        input_currency = request.args.get("input_currency", type=str)
+        amount = request.args.get("amount", type=float)
+        output_currency = request.args.get("output_currency", type=str)
+        logging.info(f"{input_currency} - {type(input_currency)}")
+        logging.info(f"{output_currency}  - {type(output_currency)}")
+        logging.info(f"{amount}  - {type(amount)}")
+        if input_currency and amount:
+            converter = Converter(input_currency=input_currency,
+                                  amount=amount,
+                                  output_currency=output_currency)
+            response, status_code = converter.convert()
+            response = jsonify(response) if status_code == 200 else jsonify(message=response)
+            return response, status_code
         else:
-            return jsonify(message="Missing one or both required params."), 400
+            return jsonify(message="Missing required params or wrong type of params."), 400
     else:
         return jsonify(message="Unsupported HTTP method."), 400
 

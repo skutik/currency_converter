@@ -1,35 +1,37 @@
 from src.converter import Converter, supported_currencies
+from src.downloader import CurrencyDowloader
 import argparse
 import logging
 
-logging.getLogger().setLevel(logging.DEBUG)
+# logging.getLogger().setLevel(logging.DEBUG)
 
 desc = """
 Supported currencies - 
 Currency code (Currency symbol):
-\n\n\n
-
 """
 for key, value in supported_currencies.items():
-    desc += f"{key} ({value})".format(key, value)
+    desc += f"{key} ({value})"
 
+# Top-level paraser
 parser = argparse.ArgumentParser(description=desc)
-subparsers = parser.add_subparsers()
+subparsers = parser.add_subparsers(dest="action", help="sub-commands")
 
-convert_app = subparsers.add_parser("", description="Currency converting")
+# Converter
+conv_paraser = subparsers.add_parser("conv", help="Converting currencies")
+conv_paraser.add_argument("--input_currency", type=str, required=True, help="Currency code of input currency.")
+conv_paraser.add_argument("--output_currency", type=str, required=False, help="Currency code of output currency. Not required. In case of None will be returned all available currencies.")
+conv_paraser.add_argument("--amount", type=float, required=True, help="Amount to be converted.")
 
-parser.add_argument("--input_currency", type=str, required=True, help="Currency code of input currency.")
-parser.add_argument("--output_currency", type=str, required=False, help="Currency code of output currency. Not required. In case of None will be returned all available currencies.")
-parser.add_argument("--amount", type=float, required=True, help="Amount to be converted.")
-
-download_data = subparsers.add_parser("download", description="Download data from API.")
-# parser.add_argument("--help", "-h")
+# Storage update
+update_parser = subparsers.add_parser("update", help="Update currency rates.")
 
 args = parser.parse_args()
 
-conv = Converter(input_currency=args.input_currency,
-                 amount=args.amount,
-                 output_currency=args.output_currency)
-
-# conv._get_currencies_list()
-print(conv.convert(pretiffy=True))
+if args.action == "conv":
+    conv = Converter(input_currency=args.input_currency,
+                     amount=args.amount,
+                     output_currency=args.output_currency)
+    print(conv.convert(pretiffy=True)[0])
+elif args.action == "update":
+    downloader = CurrencyDowloader(supported_currencies)
+    print(downloader.update())
