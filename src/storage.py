@@ -16,7 +16,6 @@ class Storage():
         if not os.path.exists(self.file_path):
             open(self.file_path, "a").close()
 
-    @property
     def get_dict(self):
         try:
             with open(self.file_path, "r") as json_file:
