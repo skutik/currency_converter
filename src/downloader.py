@@ -8,7 +8,9 @@ import json
 
 
 class CurrencyDowloader:
-    def __init__(self, currencies: dict):
+    def __init__(self, currencies):
+        if not isinstance(currencies, dict) and isinstance(currencies, list):
+            raise TypeError("currencies has to be type of dict or list")
         self.currencies = currencies
 
     async def _download_currency_rate(self, session, currency):
@@ -24,9 +26,10 @@ class CurrencyDowloader:
     async def _fetch_data(self):
         async with aiohttp.ClientSession() as session:
             logging.debug("Session created")
+            currency_codes = self.currencies.keys() if isinstance(self.currencies, dict) else self.currencies
             tasks = [
                 self._download_currency_rate(session, currency)
-                for currency in self.currencies.keys()
+                for currency in currency_codes
             ]
             return await asyncio.gather(*tasks)
 

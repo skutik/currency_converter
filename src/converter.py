@@ -5,7 +5,11 @@ from src.config import supported_currencies
 
 
 class Converter:
-    def __init__(self, input_currency, amount, output_currency):
+    def __init__(self, input_currency, amount, output_currency=None):
+        if not isinstance(input_currency, str):
+            raise TypeError("input_currency has to be type of str")
+        if not isinstance(amount, float) and not isinstance(amount, int):
+            raise TypeError("amount has to be type of float or int")
         self.input_currency = self._get_currency_codes(input_currency)
         self.amount = amount
         self.output_currency = self._get_currency_codes(output_currency)

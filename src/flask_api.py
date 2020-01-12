@@ -5,7 +5,7 @@ from src.config import supported_currencies
 import logging
 from markdown import markdown
 
-logging.getLogger().setLevel(logging.INFO)
+# logging.getLogger().setLevel(logging.INFO)
 
 app = Flask(__name__)
 downloader = CurrencyDowloader(supported_currencies)

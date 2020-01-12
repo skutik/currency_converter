@@ -7,6 +7,8 @@ class Storage:
     file_dir = ".storage"
 
     def __init__(self, name):
+        if not isinstance(name, str):
+            raise TypeError("name has to be type of str")
         self.name = name
         self.file_path = f"{self.file_dir}/{self.name}.json"
         self._check_storage()
