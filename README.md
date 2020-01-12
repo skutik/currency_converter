@@ -2,8 +2,9 @@
 
 ### Source and supported currencies
 
- - Currency rates are gather from via [RatesAPI](https://ratesapi.io/) providing current and historical exchange rates publiched by European Central Bank for free (exchange rates are updated once per day at 15:00 CET).
- - Application works only with currencies provided by European Central Bank. Supported currencies:
+ - Currency rates are gather via [RatesAPI](https://ratesapi.io/).
+ - The service provides current and historical exchange rates published by European Central Bank (exchange rates are updated once per day at 15:00 CET).
+ - Supported currencies:
  
 Currency Code|Currency Syymbol 
 ---|---
@@ -43,14 +44,15 @@ ZAR|R
 ### Currency Converter
 - Convert specified amount to other currency/currencies
 - Takes two required arguments (`input_currency`, `amount`) and one optional (`output_currency`)
-- `input_currency` - can be defined by 3-letter currency code (non-case sensitive) or currency symbol (case sensitive). `input_currency` have to be **unique**, therefore symbol `$` can't be used because is shared between three different currencies (`AUD`, `CAD`, `MXN`)
-- `amount` - amount which will converted to other currency/currencies
-- `output_currency` - can be defined by 3-letter currency code (non-case sensitive) or currency symbol (case sensitive). In case of ommiting the atrribute will be returned all currencies.
+- `input_currency` - can be defined by 3-letter currency code (not case-sensitive) or currency symbol (case-sensitive). `input_currency` has to be **unique**, therefore symbol `$` can't be used because is shared between three different currencies (`AUD`, `CAD`, `MXN`)
+- `amount` - amount which will be converted to other currency/currencies
+- `output_currency` - can be defined by 3-letter currency code (not case-sensitive) or currency symbol (case-sensitive). In case of omting the atrribute will be returned converted amount for all supported currencies.
 - Action will print/return formatted JSON or error message.
+- App require packages from `requirements.txt` for correct behaviour
 
 ### Local Storage
  - Storage constains JSON file with exchange rates for all supported currencies.
- - Storage is updated by *update* command of in case of web application on strat-up.
+ - Storage is updated by *update* command or on start-up of web application.
 
 #### Example
 

@@ -1,7 +1,8 @@
 import os
 import json
 
-class Storage():
+
+class Storage:
 
     file_dir = ".storage"
 
