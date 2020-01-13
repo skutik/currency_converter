@@ -2,12 +2,12 @@
 
 ### Source and supported currencies
 
- - Currency rates are gather via [RatesAPI](https://ratesapi.io/).
+ - Currency rates are gathered via [RatesAPI](https://ratesapi.io/).
  - The service provides current and historical exchange rates published by European Central Bank (exchange rates are updated once per day at 15:00 CET).
  - Supported currencies:
  
-Currency Code|Currency Syymbol 
----|---
+Currency Code|Currency Symbol 
+:---|:---
 AUD|$
 BGN|BGN
 BRL|R$
@@ -45,14 +45,14 @@ ZAR|R
 - Convert specified amount to other currency/currencies
 - Takes two required arguments (`input_currency`, `amount`) and one optional (`output_currency`)
 - `input_currency` - can be defined by 3-letter currency code (not case-sensitive) or currency symbol (case-sensitive). `input_currency` has to be **unique**, therefore symbol `$` can't be used because is shared between three different currencies (`AUD`, `CAD`, `MXN`)
-- `amount` - amount which will be converted to other currency/currencies
-- `output_currency` - can be defined by 3-letter currency code (not case-sensitive) or currency symbol (case-sensitive). In case of omting the atrribute will be returned converted amount for all supported currencies.
+- `amount` - an amount which will be converted to other currency/currencies
+- `output_currency` - can be defined by 3-letter currency code (not case-sensitive) or currency symbol (case-sensitive). In the case of omitting, the attribute will be returned converted amount for all supported currencies.
 - Action will print/return formatted JSON or error message.
-- App require packages from `requirements.txt` for correct behaviour
+- The app requires packages from `requirements.txt` for correct behavior
 
 ### Local Storage
- - Storage constains JSON file with exchange rates for all supported currencies.
- - Storage is updated by *update* command or on start-up of web application.
+ - The storage contains a JSON file with exchange rates for all supported currencies.
+ - Storage is updated by *update* command or on the start-up of the web application.
 
 #### Example
 

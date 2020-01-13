@@ -85,9 +85,7 @@ class CurrencyDowloader:
                         "rates"
                     ]
                     if (
-                        currency_code == "EUR"
-                        and "EUR"
-                        not in updated_dict["currencies"][currency_code]["rates"]
+                        currency_code not in updated_dict["currencies"][currency_code]["rates"]
                     ):  # API workaround - each currency returns rates including base currency itsefl, except EUR
                         updated_dict["currencies"][currency_code]["rates"][
                             currency_code

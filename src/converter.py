@@ -58,15 +58,14 @@ class Converter:
                             {"input": input_dict, "output": output_dict},
                             indent=4,
                             sort_keys=True,
-                        ),
-                        200
+                        )
                         if pretiffy
                         else {"input": input_dict, "output": output_dict},
                         200,
                     )
                 else:
                     return (
-                        "Missing currency exchange rates. Please try to update storage.",
+                        "Missing currency exchange rates. Please try to update the storage.",
                         400,
                     )
         else:
