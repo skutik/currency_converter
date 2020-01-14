@@ -3,7 +3,7 @@ import asyncio
 import logging
 from requests import get
 from src.storage import Storage
-from src.config import supported_currencies
+from src.config import supported_currencies, storage_name
 import json
 
 
@@ -26,7 +26,11 @@ class CurrencyDowloader:
     async def _fetch_data(self):
         async with aiohttp.ClientSession() as session:
             logging.debug("Session created")
-            currency_codes = self.currencies.keys() if isinstance(self.currencies, dict) else self.currencies
+            currency_codes = (
+                self.currencies.keys()
+                if isinstance(self.currencies, dict)
+                else self.currencies
+            )
             tasks = [
                 self._download_currency_rate(session, currency)
                 for currency in currency_codes
@@ -36,7 +40,7 @@ class CurrencyDowloader:
     def _check_updates(self):
         response = get("https://api.ratesapi.io/api/latest")
         if response.status_code == 200:
-            storage = Storage("test_db")
+            storage = Storage(storage_name)
             latest_api_date = json.loads(response.text)["date"]
             logging.debug(f"API date: {latest_api_date}")
             rates = storage.get_dict()
@@ -85,7 +89,8 @@ class CurrencyDowloader:
                         "rates"
                     ]
                     if (
-                        currency_code not in updated_dict["currencies"][currency_code]["rates"]
+                        currency_code
+                        not in updated_dict["currencies"][currency_code]["rates"]
                     ):  # API workaround - each currency returns rates including base currency itsefl, except EUR
                         updated_dict["currencies"][currency_code]["rates"][
                             currency_code
@@ -94,6 +99,6 @@ class CurrencyDowloader:
                         min_date = content["date"]
             updated_dict["last_update"] = min_date
             logging.debug(updated_dict)
-            storage = Storage("test_db")
+            storage = Storage(storage_name)
             storage.update_storage(updated_dict)
             return "Updated successfully"

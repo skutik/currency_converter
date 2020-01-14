@@ -3,13 +3,11 @@ import json
 
 
 class Storage:
-
-    file_dir = ".storage"
-
-    def __init__(self, name):
+    def __init__(self, name, file_dir=".storage"):
         if not isinstance(name, str):
             raise TypeError("name has to be type of str")
         self.name = name
+        self.file_dir = file_dir
         self.file_path = f"{self.file_dir}/{self.name}.json"
         self._check_storage()
 

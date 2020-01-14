@@ -132,9 +132,5 @@ dmypy.json
 
 .idea/
 
-#Test Files
-test.py
-test
-
 #Local Storage
 .storage/

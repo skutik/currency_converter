@@ -1,7 +1,7 @@
 import logging
 import json
 from src.storage import Storage
-from src.config import supported_currencies
+from src.config import supported_currencies, storage_name
 
 
 class Converter:
@@ -39,7 +39,7 @@ class Converter:
                 )
             else:
                 input_dict = {"amount": self.amount, "currency": self.input_currency[0]}
-                storage = Storage("test_db")
+                storage = Storage(storage_name)
                 rates = storage.get_dict()
                 try:
                     rates = rates["currencies"][self.input_currency[0]]["rates"]

@@ -33,3 +33,5 @@ supported_currencies = {
     "USD": "US$",
     "ZAR": "R",
 }
+
+storage_name = "exchange_rates"
